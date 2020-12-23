@@ -38,6 +38,7 @@
 #include <avr/eeprom.h>
 #include "gitversion.h"
 #include "adc.h"
+#include "serial.h"
 
 
 #define LEN 256
@@ -48,6 +49,7 @@
 
 #define SD_CS   10
 
+// connect these to an 8 bit port
 #define Data0   5
 #define Data1   6
 #define Data2   14
@@ -57,9 +59,9 @@
 #define Data6   18
 #define Data7   19
 
-#define nStrobe 2
-#define nAck    3
-#define Busy    4
+#define nStrobe 2 // To INT0 pin
+#define nAck    3 //
+#define Busy    4 //
 
 enum States {
   READY,
@@ -68,7 +70,6 @@ enum States {
   STDBY
 } state;
 
-uint8_t data;
 
 
 /***********************************************************************
@@ -88,6 +89,33 @@ ISR(EXT_INT0_vect)
 int main()
 {
     state = READY;
+    char data;
+    UART_init();
+    while(1)
+    {
+        switch (state) {
+        case READY:
+          //digitalWrite(Busy, LOW);
+          //digitalWrite(nAck,HIGH);
+          //digitalWrite(led, HIGH);
+          break;
+        case BUSY: // nStrobe signal received by interrupt handler
+          //digitalWrite(Busy, HIGH);
+          //digitalWrite(led, LOW);
+          //ProcessChar();
+          data = PINA;
+          UART_tx(data);
+          state = ACK;
+          break;
+        case ACK:
+          //digitalWrite(nAck,LOW);
+          _delay_ms(5); //milliseconds. Specification minimum = 5 us
+          state = READY;
+          break;
+  }
+
+
+    }
 
 
 }

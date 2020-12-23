@@ -6,7 +6,7 @@
 #
 # PROGRAM options are: torchy, pir, ir_sensor, piezo
 PROGRAM = lptcap
-CSRCS = main.c   adc.c  serial.c
+CSRCS = main.c  adc.c  serial.c
 #AsmTinySerial.S system_clock.c
 
 
@@ -33,7 +33,7 @@ CDEFS = -DF_CPU=$(F_CPU) -D$(PROGRAM) -DMCU=$(MCU)
 CXXDEFS = -DF_CPU=$(F_CPU)
 
 # Add -Wl,-u,vfprintf -lprintf_flt -lm  to enable sprintf and float point convertion libraries
-CFLAGS = -Wl,--start-group
+#CFLAGS = -Wl,--start-group
 CFLAGS += -mmcu=$(MCU) $(CDEFS) -Os
 CFLAGS += -mcall-prologues
 CFLAGS += -Wno-deprecated-declarations
@@ -41,8 +41,7 @@ CFLAGS += -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums
 CFLAGS += -fno-inline-small-functions -mrelax
 CFLAGS += -std=c99
 CFLAGS += -fdata-sections -ffunction-sections
-CFLAGS += -Wl,-u,vfprintf -lprintf_flt -lm
-CFLAGS += -Wl,--end-group
+#CFLAGS += -Wl,--end-group
 #CFLAGS += -Wunused-variable
 # For "AVRTools/ArduinoPins.h"
 #CFLAGS += -D__AT_Tiny__
@@ -53,7 +52,7 @@ CFLAGS += -Wl,--end-group
 # If you want VERY small code then don't use startfiles, but you'll need a start jump in crt1.s
 # Precompile this with avr-gcc -c crt1.s then include the object file
 #CFLAGS += -nostartfiles crt1.o
-LIBSRC = ../../lib_tiny84/src
+#LIBSRC = ../../lib_tiny84/src
 INCLUDES = -I .
 #INCLUDES = -I ../../lib_tiny84/include
 #-I . -I /usr/local/avr/include/
