@@ -27,7 +27,6 @@
  ********************************************************************************/
 
 
-
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/sfr_defs.h>
@@ -38,15 +37,6 @@
 #include <avr/eeprom.h>
 #include "gitversion.h"
 #include "serial.h"
-
-
-#define LEN 256
-
-#define PWR_ON   7
-#define PWR_STAT 8
-#define LED_ON   9
-
-#define SD_CS   10
 
 // connect these to an 8 bit port
 #define Data0   5
@@ -72,8 +62,7 @@ enum States {
 
 
 /***********************************************************************
-
-
+Interrupt to detect nStrobe
  **********************************************************************/
 ISR(EXT_INT0_vect)
 {
@@ -87,7 +76,6 @@ ISR(EXT_INT0_vect)
  **********************************************************************/
 int main()
 {
-
     DDRB |= _BV(nAck) | _BV(busy);
     char data;
     UART_init();
@@ -121,11 +109,7 @@ int main()
           _delay_ms(5); //milliseconds. Specification minimum = 5 us
           state = READY;
           break;
-  }
-
-
+        }
     }
-
-
 }
 
