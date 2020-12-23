@@ -10,7 +10,7 @@
  * --------------------               -------------
  * Name      Dir.   Pin                Name     Pin
  * ----      ----   ---                ----     ---
- * nSTROBE    >       1................INT0     PA1 (as interrupt)
+ * nSTROBE    >       1................INT0     PB2 (as interrupt)
  * DATA BYTE  >     2-9....................     PORTA
  * nACK       <      10....................     3
  * BUSY       <      11....................     4
@@ -37,7 +37,6 @@
 #include <avr/pgmspace.h>
 #include <avr/eeprom.h>
 #include "gitversion.h"
-#include "adc.h"
 #include "serial.h"
 
 
@@ -59,9 +58,9 @@
 #define Data6   18
 #define Data7   19
 
-#define nStrobe 2 // To INT0 pin
-#define nAck    3 //
-#define Busy    4 //
+#define nStrobe PB2 // To INT0 pin
+#define nAck    PB0 //
+#define busy    PB1 //
 
 enum States {
   READY,
@@ -78,7 +77,7 @@ enum States {
  **********************************************************************/
 ISR(EXT_INT0_vect)
 {
-
+    state = BUSY;
 }
 
 
@@ -88,27 +87,37 @@ ISR(EXT_INT0_vect)
  **********************************************************************/
 int main()
 {
-    state = READY;
+
+    DDRB |= _BV(nAck) | _BV(busy);
     char data;
     UART_init();
+    state = READY;
+    GIMSK |= _BV(INT0);
+    MCUCR |= _BV(ISC01); // Trigger on falling edge
+    PORTB |= _BV(nStrobe) | _BV(busy); // Pull these UP
+    sei();
+
     while(1)
     {
         switch (state) {
         case READY:
           //digitalWrite(Busy, LOW);
+          PORTB &= ~_BV(busy);
           //digitalWrite(nAck,HIGH);
+          PORTB |= _BV(nAck);
           //digitalWrite(led, HIGH);
           break;
         case BUSY: // nStrobe signal received by interrupt handler
           //digitalWrite(Busy, HIGH);
+          PORTB |= _BV(busy);
           //digitalWrite(led, LOW);
-          //ProcessChar();
           data = PINA;
           UART_tx(data);
           state = ACK;
           break;
         case ACK:
           //digitalWrite(nAck,LOW);
+          PORTB &= ~_BV(nAck);
           _delay_ms(5); //milliseconds. Specification minimum = 5 us
           state = READY;
           break;

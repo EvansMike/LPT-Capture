@@ -6,7 +6,7 @@
 #
 # PROGRAM options are: torchy, pir, ir_sensor, piezo
 PROGRAM = lptcap
-CSRCS = main.c  adc.c  serial.c
+CSRCS = main.c  serial.c
 #AsmTinySerial.S system_clock.c
 
 
