@@ -6,14 +6,14 @@
 #
 # PROGRAM options are: torchy, pir, ir_sensor, piezo
 PROGRAM = lptcap
-CSRCS = main.c  serial.c
+CSRCS = main.c
 #AsmTinySerial.S system_clock.c
 
 
-MCU=attiny84
-DUDE_MCU=t84
+MCU=atmega168
+DUDE_MCU=m168
 
-F_CPU = 8000000
+F_CPU = 16000000
 
 # For 8MHz
 FUSE_L = 0xE2
@@ -25,7 +25,7 @@ FUSE_E = 0xFF
 ##SERIAL:=$(shell ls -l /dev/serial/by-id/ | grep Arduino |  awk -F/ '{ print $$3}')
 #SERIAL:=ttyUSB0
 AVRDUDE = avrdude  -c stk200 -p $(DUDE_MCU)
-#AVRDUDE := avrdude  -p $(DUDE_MCU) -c usbtiny -p $(DUDE_MCU)
+#AVRDUDE := avrdude  -p $(DUDE_MCU) -c usbtiny
 
 
 # Place -D or -U options here
