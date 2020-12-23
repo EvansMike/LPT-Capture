@@ -8,10 +8,10 @@
  *
  * Parallel Port Output               AVR Pins
  * --------------------               -------------
- * Name      Dir.   Pin                Name    Pin
- * ----      ----   ---                ----    ---
- * nSTROBE    >       1................INT0     2 (as interrupt)
- * DATA BYTE  >     2-9....................     5,6,14-19
+ * Name      Dir.   Pin                Name     Pin
+ * ----      ----   ---                ----     ---
+ * nSTROBE    >       1................INT0     PA1 (as interrupt)
+ * DATA BYTE  >     2-9....................     PORTA
  * nACK       <      10....................     3
  * BUSY       <      11....................     4
  * OutofPaper <      12................GND
@@ -25,6 +25,21 @@
  * SCK:     pin 13
  *
  ********************************************************************************/
+
+
+
+#include <stdio.h>
+#include <avr/io.h>
+#include <avr/sfr_defs.h>
+#include <util/delay.h>
+#include <avr/interrupt.h>
+#include <stdlib.h>
+#include <avr/pgmspace.h>
+#include <avr/eeprom.h>
+#include "gitversion.h"
+#include "adc.h"
+
+
 #define LEN 256
 
 #define PWR_ON   7
@@ -51,15 +66,28 @@ enum States {
   BUSY,
   ACK,
   STDBY
-} State;
+} state;
+
+uint8_t data;
 
 
+/***********************************************************************
 
 
+ **********************************************************************/
+ISR(EXT_INT0_vect)
+{
+
+}
 
 
+/***********************************************************************
+ * MAIN YAAYYYY
+ *
+ **********************************************************************/
 int main()
 {
+    state = READY;
 
 
 }
