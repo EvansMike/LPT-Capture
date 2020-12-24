@@ -1,0 +1,200 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L MCU_Module:Arduino_Nano_Every A1
+U 1 1 5FE48B53
+P 3500 3650
+F 0 "A1" H 3128 2561 50  0000 L BNN
+F 1 "Arduino_Nano_Every" H 3128 2470 50  0000 L TNN
+F 2 "Module:Arduino_Nano" H 3500 3650 50  0001 C CIN
+F 3 "https://content.arduino.cc/assets/NANOEveryV3.0_sch.pdf" H 3500 3650 50  0001 C CNN
+	1    3500 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:DB25_Male_MountingHoles J1
+U 1 1 5FE4DA10
+P 3350 1200
+F 0 "J1" V 3667 1156 50  0000 C CNN
+F 1 "DB25_Male_MountingHoles" V 3576 1156 50  0000 C CNN
+F 2 "Connector_Dsub:DSUB-25_Male_Vertical_P2.77x2.84mm_MountingHoles" H 3350 1200 50  0001 C CNN
+F 3 " ~" H 3350 1200 50  0001 C CNN
+	1    3350 1200
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4550 1500 4550 2250
+Wire Wire Line
+	4550 2250 2500 2250
+Wire Wire Line
+	2500 2250 2500 3150
+Wire Wire Line
+	2500 3150 3000 3150
+Wire Wire Line
+	4350 1500 4350 2200
+Wire Wire Line
+	4350 2200 2450 2200
+Wire Wire Line
+	2450 2200 2450 3250
+Wire Wire Line
+	2450 3250 3000 3250
+Wire Wire Line
+	4150 1500 4150 2150
+Wire Wire Line
+	4150 2150 2400 2150
+Wire Wire Line
+	2400 2150 2400 3350
+Wire Wire Line
+	2400 3350 3000 3350
+Wire Wire Line
+	3950 1500 3950 2100
+Wire Wire Line
+	3950 2100 2350 2100
+Wire Wire Line
+	2350 2100 2350 3450
+Wire Wire Line
+	2350 3450 3000 3450
+Wire Wire Line
+	3750 2050 2300 2050
+Wire Wire Line
+	2300 2050 2300 3550
+Wire Wire Line
+	2300 3550 3000 3550
+Wire Wire Line
+	3750 1500 3750 2050
+Wire Wire Line
+	3550 1500 3550 2000
+Wire Wire Line
+	3550 2000 2250 2000
+Wire Wire Line
+	2250 2000 2250 3650
+Wire Wire Line
+	2250 3650 3000 3650
+Wire Wire Line
+	3350 1500 3350 1950
+Wire Wire Line
+	3350 1950 2200 1950
+Wire Wire Line
+	2200 1950 2200 3750
+Wire Wire Line
+	2200 3750 3000 3750
+Wire Wire Line
+	3150 1500 3150 1900
+Wire Wire Line
+	3150 1900 2150 1900
+Wire Wire Line
+	2150 1900 2150 3850
+Wire Wire Line
+	2150 3850 3000 3850
+Wire Wire Line
+	2950 1500 2950 1850
+Wire Wire Line
+	2950 1850 2100 1850
+Wire Wire Line
+	2100 1850 2100 3950
+Wire Wire Line
+	2100 3950 3000 3950
+Wire Wire Line
+	2750 1500 2750 2500
+Wire Wire Line
+	2750 2500 4100 2500
+Wire Wire Line
+	4100 2500 4100 3650
+Wire Wire Line
+	4100 3650 4000 3650
+Wire Wire Line
+	2550 1500 2550 2550
+Wire Wire Line
+	2550 2550 4150 2550
+Wire Wire Line
+	4150 2550 4150 3750
+Wire Wire Line
+	4150 3750 4000 3750
+Wire Wire Line
+	3650 1500 3650 1650
+Wire Wire Line
+	3650 1650 3450 1650
+Wire Wire Line
+	3450 1650 3450 1500
+Wire Wire Line
+	3250 1500 3250 1650
+Wire Wire Line
+	3250 1650 3450 1650
+Connection ~ 3450 1650
+Wire Wire Line
+	3050 1500 3050 1650
+Wire Wire Line
+	3050 1650 3250 1650
+Connection ~ 3250 1650
+Wire Wire Line
+	2850 1500 2850 1650
+Wire Wire Line
+	2850 1650 3050 1650
+Connection ~ 3050 1650
+Wire Wire Line
+	2650 1500 2650 1650
+Wire Wire Line
+	2650 1650 2850 1650
+Connection ~ 2850 1650
+Wire Wire Line
+	2450 1500 2450 1650
+Wire Wire Line
+	2450 1650 2650 1650
+Connection ~ 2650 1650
+Wire Wire Line
+	2250 1500 2250 1650
+Wire Wire Line
+	2250 1650 2450 1650
+Connection ~ 2450 1650
+$Comp
+L power:GND #PWR0101
+U 1 1 5FE52B83
+P 2250 1650
+F 0 "#PWR0101" H 2250 1400 50  0001 C CNN
+F 1 "GND" H 2255 1477 50  0000 C CNN
+F 2 "" H 2250 1650 50  0001 C CNN
+F 3 "" H 2250 1650 50  0001 C CNN
+	1    2250 1650
+	1    0    0    -1  
+$EndComp
+Connection ~ 2250 1650
+$Comp
+L power:GND #PWR0102
+U 1 1 5FE531C1
+P 3500 4750
+F 0 "#PWR0102" H 3500 4500 50  0001 C CNN
+F 1 "GND" H 3505 4577 50  0000 C CNN
+F 2 "" H 3500 4750 50  0001 C CNN
+F 3 "" H 3500 4750 50  0001 C CNN
+	1    3500 4750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3500 4750 3500 4650
+$Comp
+L power:GND #PWR?
+U 1 1 5FE54AAA
+P 4750 1300
+F 0 "#PWR?" H 4750 1050 50  0001 C CNN
+F 1 "GND" H 4755 1127 50  0000 C CNN
+F 2 "" H 4750 1300 50  0001 C CNN
+F 3 "" H 4750 1300 50  0001 C CNN
+	1    4750 1300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 1200 4750 1300
+$EndSCHEMATC
