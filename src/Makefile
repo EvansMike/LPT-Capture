@@ -10,17 +10,22 @@ CSRCS = main.c
 #AsmTinySerial.S system_clock.c
 
 
-MCU=atmega168
-DUDE_MCU=m168
+MCU=atmega168p
+DUDE_MCU=m168p
 
 F_CPU = 16000000
 
+# For 16MHz nano
+FUSE_L = 0xFF
+FUSE_H = 0xDF
+FUSE_E = 0xF8
+
 # For 8MHz
-FUSE_L = 0xE2
+#FUSE_L = 0xE2
 # For 1MHz
 #FUSE_L = 0x62
-FUSE_H = 0xDF
-FUSE_E = 0xFF
+#FUSE_H = 0xDF
+#FUSE_E = 0xFF
 
 ##SERIAL:=$(shell ls -l /dev/serial/by-id/ | grep Arduino |  awk -F/ '{ print $$3}')
 #SERIAL:=ttyUSB0

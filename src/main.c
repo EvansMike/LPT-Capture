@@ -52,27 +52,37 @@ enum States {
 } state;
 
 
-static void USART_Init (unsigned int baud)
+/*
+Set to 9600 8 N 1
+*/
+static void USART_Init ()
 {
-/* Set baud rate */
-UBRR0H = (unsigned char)(baud>>8);
-UBRR0L = (unsigned char)baud;
-/* Enable receiver and transmitter */
-UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-/* Set frame format: 8data, 2stop bit */
-UCSR0C = (1<<USBS0)|(3<<UCSZ00);
+  #define BAUD 9600
+  #include <util/setbaud.h>
+  UBRR0H = UBRRH_VALUE;
+  UBRR0L = UBRRL_VALUE;
+
+  UCSR0C = 0x06;       /* Set frame format: 8data, 1stop bit  */
+  UCSR0B = (1<<TXEN0); /* Enable  transmitter                 */
 }
 
 
 static void USART_Transmit (unsigned char data)
 {
 /* Wait for empty transmit buffer */
-while (!(UCSR0A & (1<<UDRE0)))
-;
+while (!(UCSR0A & (1<<UDRE0)));
 /* Put data into buffer, sends the data */
 UDR0 = data;
 }
 
+
+static void USART_Tx_string(char * string)
+{
+  while( *string )
+  {
+    USART_Transmit( *string++ );
+  }
+}
 
 /***********************************************************************
 Interrupt to detect nStrobe
@@ -90,13 +100,18 @@ ISR(INT0_vect)
 int main()
 {
     DDRC |= _BV(nAck) | _BV(busy);
-    char data;
-    USART_Init (9600);
+    unsigned char data;
+    USART_Init ();
     state = READY;
     EIMSK |= _BV(INT0);
     EICRA |= _BV(ISC11); // Trigger on falling edge
     PORTC |= _BV(nStrobe) | _BV(busy); // Pull these UP
+
     sei();
+    //while(1)
+    //{
+    //  USART_Tx_string("Hello World\n");
+    //}
 
     while(1)
     {
@@ -115,7 +130,7 @@ int main()
           //digitalWrite(led, LOW);
           PORTB &= ~_BV(LED); // OFF
           data = (PIND & 0b11111100) & (PINB & 0b00000111);
-          //UART_tx(data);
+          USART_Transmit(data);
           state = ACK;
           break;
         case ACK:
@@ -126,5 +141,5 @@ int main()
           break;
         }
     }
+while(1);
 }
-
