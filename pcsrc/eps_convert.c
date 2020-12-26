@@ -222,6 +222,18 @@ void eps_convert (uint8_t* Data, int dsize)
                 strcpy(&(newdata[newptr]),"&apos;");
                 newptr=newptr+6;
                 break;
+            case 34:        // Double quote
+                strcpy(&(newdata[newptr]),"&quot;");
+                newptr=newptr+6;
+                break;
+            case 60:
+                strcpy(&(newdata[newptr]),"&lt;");
+                newptr=newptr+4;
+                break;
+            case 62:
+                strcpy(&(newdata[newptr]),"&gt;");
+                newptr=newptr+4;
+                break;
             case 218:                            //Left top corner
                 newdata[newptr]=226;
                 newptr=newptr+1;
@@ -288,11 +300,11 @@ void eps_convert (uint8_t* Data, int dsize)
                     if (Data[fptr]>125)         //Text
                     {
                     }
-                    /* These are for testing to see where the errors are
+                    /* These are for testing to see where the errors are*/
                     else if(Data[fptr] == '@'){} // Ignore it
                     else if(Data[fptr] == '<'){} // Ignore it
                     else if(Data[fptr] == '>'){} // Ignore it
-                    */
+
                     else if (Data[fptr]>32)         //Text
                     {
                         newdata[newptr]=Data[fptr];
