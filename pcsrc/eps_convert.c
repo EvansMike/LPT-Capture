@@ -33,7 +33,10 @@
 #define TABSTRSZ 132
 #define NEWFILESZ 36000
 
-
+static void DEBUG(char * msg)
+{
+    printf("%s", msg);
+}
 
 void eps_convert (uint8_t* Data, int dsize)
 {
@@ -79,7 +82,6 @@ void eps_convert (uint8_t* Data, int dsize)
         break;
       }
     }
-
     //printf("dsize=%i\n",dsize);fflush(stdout);
     for (;;)
     {
@@ -286,9 +288,15 @@ void eps_convert (uint8_t* Data, int dsize)
                     if (Data[fptr]>125)         //Text
                     {
                     }
+                    /* These are for testing to see where the errors are
+                    else if(Data[fptr] == '@'){} // Ignore it
+                    else if(Data[fptr] == '<'){} // Ignore it
+                    else if(Data[fptr] == '>'){} // Ignore it
+                    */
                     else if (Data[fptr]>32)         //Text
                     {
                         newdata[newptr]=Data[fptr];
+                        printf("%c", Data[fptr]);
                         newptr++;
                     }
                     else if (Data[fptr]==32)         //Text      Space
@@ -304,7 +312,9 @@ void eps_convert (uint8_t* Data, int dsize)
 */
 
                 }
+
         }
+
         if (Data[fptr]==0)
         {
           if (prevdatanull==1)
@@ -319,9 +329,12 @@ void eps_convert (uint8_t* Data, int dsize)
           nullcounter=0;
         }
         fptr++;
-    }
 
-    //printf("%i,%i\n",Data[fptr-1],Data[fptr]);fflush(stdout);
+    }
+    printf("\n");
+    printf("%s\n",newdata);
+
+    printf("%i,%i\n",Data[fptr-1],Data[fptr]);fflush(stdout);
 
     for (;;)
     {
@@ -339,7 +352,7 @@ void eps_convert (uint8_t* Data, int dsize)
     }
 
 // add vogels
-
+/*
     strcpy(&(newdata[newptr]),"</text:p>\n   <text:p text:style-name=\"P1\">");
     newptr=newptr+42;
     strcpy(&(newdata[newptr]),"</text:p>\n   <text:p text:style-name=\"P1\">");
@@ -364,7 +377,7 @@ void eps_convert (uint8_t* Data, int dsize)
     strcpy(&(newdata[newptr]), timestr);
     newptr=newptr+timestrsize;
 
-
+*/
     strcpy(filenm,"tempres1.txt");
     fid=fopen(filenm,"w");
     dsize=fwrite(newtabdata,1,newtabptr,fid);
@@ -379,7 +392,8 @@ void eps_convert (uint8_t* Data, int dsize)
 
     system("cat part1.prn tempres1.txt part2.prn tempres2.txt part3.prn > printfile.fodt");
 
-//STRACE LOWRITER    //system("/usr/bin/strace -o /tmp/strace-f.log -f /usr/bin/lowriter --headless -p /tmp/printfile.fodt > /tmp/lowriter.log 2> /tmp/lowriter.err");
+//STRACE LOWRITER
+//system("/usr/bin/strace -o /tmp/strace-f.log -f /usr/bin/lowriter --headless -p printfile.fodt > lowriter.log 2> lowriter.err");
     //system("HOME=/root USERNAME=root USER=root LOGNAME=root /usr/bin/lowriter --headless -p /tmp/printfile.fodt > /tmp/lowriter.log 2> /tmp/lowriter.err");
     return;
 }
@@ -406,8 +420,13 @@ int main()
     count = fread(data, sizeof(uint8_t), file_len,  fid);
     printf("Size of data read = %d bytes\n", count);
     fclose(fid);
+    for(uint16_t i = 0; i < count; i++)
+    {
+        printf("%x", data[i]);
+    }
+    printf("\n");
     eps_convert ("", 0);
-    //eps_convert (data, count);
+    eps_convert (data, count);
 
     fid = NULL;
     free(data);
