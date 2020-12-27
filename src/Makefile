@@ -30,7 +30,7 @@ FUSE_E = 0xF8
 ##SERIAL:=$(shell ls -l /dev/serial/by-id/ | grep Arduino |  awk -F/ '{ print $$3}')
 #SERIAL:=ttyUSB0
 AVRDUDE = avrdude  -c stk200 -p $(DUDE_MCU)
-#AVRDUDE := avrdude  -p $(DUDE_MCU) -c usbtiny
+AVRDUDE := avrdude  -p $(DUDE_MCU) -c usbtiny
 
 
 # Place -D or -U options here

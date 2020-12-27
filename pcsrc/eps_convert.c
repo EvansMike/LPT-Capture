@@ -300,11 +300,6 @@ void eps_convert (uint8_t* Data, int dsize)
                     if (Data[fptr]>125)         //Text
                     {
                     }
-                    /* These are for testing to see where the errors are*/
-                    else if(Data[fptr] == '@'){} // Ignore it
-                    else if(Data[fptr] == '<'){} // Ignore it
-                    else if(Data[fptr] == '>'){} // Ignore it
-
                     else if (Data[fptr]>32)         //Text
                     {
                         newdata[newptr]=Data[fptr];

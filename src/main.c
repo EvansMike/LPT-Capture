@@ -1,7 +1,24 @@
-
-
-/********************************************************************************
- * PrinterCaptureInterrupt.ino
+/*
+ * main.c
+ *
+ * Copyright 2020 Mike Evans <mikee@saxicola.co.uk>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ * MA 02110-1301, USA.
+ *
+ *
  * ------------------
  * Wiring Layout
  * -------------
@@ -37,7 +54,8 @@
 #include <avr/eeprom.h>
 #include "gitversion.h"
 //#include "serial.h"
-
+#include <string.h>
+#include <time.h>
 
 #define nStrobe PD2 // To INT0 pin
 #define nAck    PC0 //
@@ -52,6 +70,7 @@ enum States {
 } state;
 
 
+
 /*
 Set to 9600 8 N 1
 */
@@ -61,7 +80,6 @@ static void USART_Init ()
   #include <util/setbaud.h>
   UBRR0H = UBRRH_VALUE;
   UBRR0L = UBRRL_VALUE;
-
   UCSR0C = 0x06;       /* Set frame format: 8data, 1stop bit  */
   UCSR0B = (1<<TXEN0); /* Enable  transmitter                 */
 }
@@ -90,6 +108,7 @@ Interrupt to detect nStrobe
 ISR(INT0_vect)
 {
     state = BUSY;
+    cli();
 }
 
 
@@ -106,12 +125,12 @@ int main()
     EIMSK |= _BV(INT0);
     EICRA |= _BV(ISC11); // Trigger on falling edge
     PORTC |= _BV(nStrobe) | _BV(busy); // Pull these UP
+    PORTD |= _BV(PD2); // Pull UP
 
     sei();
-    //while(1)
-    //{
-    //  USART_Tx_string("Hello World\n");
-    //}
+
+    USART_Tx_string("Hello World");
+
 
     while(1)
     {
@@ -123,21 +142,24 @@ int main()
           PORTC |= _BV(nAck);
           //digitalWrite(led, HIGH);
           PORTB |= _BV(LED); // ON
+          sei();
           break;
         case BUSY: // nStrobe signal received by interrupt handler
           //digitalWrite(Busy, HIGH);
           PORTC |= _BV(busy);
           //digitalWrite(led, LOW);
           PORTB &= ~_BV(LED); // OFF
-          data = (PIND & 0b11111100) & (PINB & 0b00000111);
+          data = 0;
+          data = ((PIND & 0b11111000) >> 3) | ((PINB & 0b00000111) << 5) ;
           USART_Transmit(data);
           state = ACK;
           break;
         case ACK:
           //digitalWrite(nAck,LOW);
           PORTC &= ~_BV(nAck);
-          _delay_ms(5); //milliseconds. Specification minimum = 5 us
+          _delay_us(15); //milliseconds. Specification minimum = 5 us
           state = READY;
+
           break;
         }
     }
