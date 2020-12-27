@@ -31,8 +31,10 @@
 
 #define TABSZ 20
 #define TABSTRSZ 132
-#define NEWFILESZ 36000
+#define NEWFILESZ 500000
 
+
+// Simple message display.
 static void DEBUG(char * msg)
 {
     printf("%s", msg);
@@ -46,7 +48,7 @@ void eps_convert (uint8_t* Data, int dsize)
     int tabstrsize;
     char timestr[TABSTRSZ];
     int timestrsize;
-    int fptr, jjj;
+    int fptr, j;
     char newdata[NEWFILESZ];
     int newptr;
     char newtabdata[NEWFILESZ];
@@ -74,11 +76,11 @@ void eps_convert (uint8_t* Data, int dsize)
 
 
     //Make sure to skip initial garbage (search an ESC character to start with)
-    for (jjj=0; jjj<8; jjj++)
+    for (j=0; j<8; j++)
     {
-      if (Data[jjj]==27)
+      if (Data[j]==27)
       {
-        fptr=jjj;
+        fptr=j;
         break;
       }
     }
@@ -218,7 +220,7 @@ void eps_convert (uint8_t* Data, int dsize)
                 }
                 break;
 // Special text
-            case 39:                             //Apostrofe
+            case 39:                             //Apostrophe
                 strcpy(&(newdata[newptr]),"&apos;");
                 newptr=newptr+6;
                 break;

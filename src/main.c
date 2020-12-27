@@ -76,7 +76,7 @@ Set to 9600 8 N 1
 */
 static void USART_Init ()
 {
-  #define BAUD 9600
+  #define BAUD 38400
   #include <util/setbaud.h>
   UBRR0H = UBRRH_VALUE;
   UBRR0L = UBRRL_VALUE;
