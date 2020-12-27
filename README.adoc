@@ -3,8 +3,41 @@
 Capture parallel printer output to a file, via a suitable client such as CuteCom, than convert that to a LibreOffice text file.
 
 This consists of hardware/firmware in src and PC, Linux, software in pcsrc.
+Micro controller code is AVR not Arduino.  Do
+[source, bash]
+make install
+
+To build and install.  Edit the Makefile for your favourite installer tool.
 
 First build your device using the schematic.
 I used perf board and wires since the wiring is very simple.  Resistor values are 1K but other values around this may work too.
 No resistors at all will work but may expose your parallel port to currents it can's handle.
-There should probably be voltage spike protection to with suitable diodes.
+There should probably be voltage spike protection too with suitable diodes.
+
+== How to Use
+
+Plug it in to the port you want to capture from and a USB cable.
+Start your con software and set the baud to 38400.
+Set it to capture to a file.
+Print.
+Copy the capture file to the pcsrc folder and rename it cutecom.log.  I used CuteCom for capture.
+Run the following command.
+
+[source, bash]
+gcc eps_convert.c -o eps_convert && ./eps_convert
+
+I should write a Makefile but it's too trivial to bother.
+
+This compiles the source and runs the resultant executable. Then.
+
+[source, bash]
+libreoffice7.0 printfile.fodt
+
+To open the file in LibreOffice Writer.  Obviously use the version you have installed.
+Or you can do all that mouse clicky malarky in your GUI.
+
+Enjoy.  Also post bugs and improvements.
+
+This was really a one off for some specific data I need to liberate, hence all the hard coded file names and paths.
+
+I need to make it more generic.  Maybe.
