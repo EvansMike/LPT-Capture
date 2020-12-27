@@ -1,0 +1,10 @@
+= LPT Capture
+
+Capture parallel printer output to a file, via a suitable client such as CuteCom, than convert that to a LibreOffice text file.
+
+This consists of hardware/firmware in src and PC, Linux, software in pcsrc.
+
+First build your device using the schematic.
+I used perf board and wires since the wiring is very simple.  Resistor values are 1K but other values around this may work too.
+No resistors at all will work but may expose your parallel port to currents it can's handle.
+There should probably be voltage spike protection to with suitable diodes.
