@@ -1,6 +1,6 @@
 = LPT Capture
 
-Capture text from a parallel port to a file, via a suitable client such as CuteCom, then convert that to a LibreOffice document. Assumes that the format is plain text.
+Capture text from a parallel port to a file, then convert that to a LibreOffice document. Assumes that the format is plain text.
 
 This consists of hardware/firmware in src and PC, Linux, software in pcsrc.
 Micro controller code is C AVR not Arduino.  Do:

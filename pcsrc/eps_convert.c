@@ -122,6 +122,10 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
                   newptr=newptr+42;
                 }
                 break;
+            /*case 0x0c: // Form feed
+                strcpy(&(newdata[newptr]),"<text:p  text:style-name=\"P3\">");
+                newptr=newptr+30;
+                break;*/
             case 14:                            //Select double width for one line
                 strcpy(&(newdata[newptr]),"<text:span text:style-name=\"T1\">");
                 newptr=newptr+32;
@@ -496,8 +500,8 @@ int main(int argc, char *argv[])
     outfile = argv[2];
 
 
-    count = usb_receive(portname, outfile); //
-    printf("%d bytes received.\n\n", count);
+    //count = usb_receive(portname, outfile); //
+    //printf("%d bytes received.\n\n", count);
     //exit(1);
 
     printf("Reading file: %s\n", filenm);
