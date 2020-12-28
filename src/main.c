@@ -66,7 +66,8 @@ enum States {
   READY,
   BUSY,
   ACK,
-  STDBY
+  STDBY,
+  TXEND
 } state;
 
 
@@ -120,6 +121,7 @@ int main()
 {
     DDRC |= _BV(nAck) | _BV(busy);
     unsigned char data;
+    uint32_t timeout_count = 0;
     USART_Init ();
     state = READY;
     EIMSK |= _BV(INT0);
@@ -129,13 +131,16 @@ int main()
 
     sei();
 
-    USART_Tx_string("Hello World");
+    USART_Tx_string("Hello World\n");
 
 
     while(1)
     {
+        //timeout_count ++;
+        //if(timeout_count == 0) state = TXEND;
         switch (state) {
         case READY:
+          timeout_count = 1;
           //digitalWrite(Busy, LOW);
           PORTC &= ~_BV(busy);
           //digitalWrite(nAck,HIGH);
@@ -145,6 +150,7 @@ int main()
           sei();
           break;
         case BUSY: // nStrobe signal received by interrupt handler
+          timeout_count = 1;
           //digitalWrite(Busy, HIGH);
           PORTC |= _BV(busy);
           //digitalWrite(led, LOW);
@@ -155,11 +161,18 @@ int main()
           state = ACK;
           break;
         case ACK:
+          timeout_count = 1;
           //digitalWrite(nAck,LOW);
           PORTC &= ~_BV(nAck);
           _delay_us(15); //milliseconds. Specification minimum = 5 us
           state = READY;
 
+          break;
+        case STDBY:
+          break;
+        case TXEND: // Transmit EOF zero
+          USART_Transmit('\0');
+          timeout_count = 1;
           break;
         }
     }

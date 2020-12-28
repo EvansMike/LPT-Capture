@@ -28,6 +28,14 @@
  */
 
 #include "./Runprinter.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <termios.h>
+#include <sys/fcntl.h>
+#include <unistd.h>
+#include <string.h>
+
+
 
 #define TABSZ 20
 #define TABSTRSZ 132
@@ -40,7 +48,8 @@ static void DEBUG(char * msg)
     printf("%s", msg);
 }
 
-void eps_convert (uint8_t* Data, int dsize)
+
+void eps_convert (uint8_t* Data, int dsize, char *outfile)
 {
     char filenm[FILENMSZ];
     FILE *fid;
@@ -398,8 +407,12 @@ void eps_convert (uint8_t* Data, int dsize)
     fclose(fid);
 
 
-
-    system("cat part1.prn tempres1.txt part2.prn tempres2.txt part3.prn > printfile.fodt");
+    {
+        char * command;
+        command = (char*)malloc(sizeof(char)*100);
+        sprintf(command, "cat part1.prn tempres1.txt part2.prn tempres2.txt part3.prn > %s", outfile);
+        system(command);
+    }
 
 //STRACE LOWRITER
 //system("/usr/bin/strace -o /tmp/strace-f.log -f /usr/bin/lowriter --headless -p printfile.fodt > lowriter.log 2> lowriter.err");
@@ -407,17 +420,87 @@ void eps_convert (uint8_t* Data, int dsize)
     return;
 }
 
-/******************************************************************************************
 
+/******************************************************************************************
+Read from the specified port until we receive an EOF character,  This could be \0 as this should
+not be present in the normal data stream.
+Data can either be kept in memory or dumped to a file for further processing.
+@param char* Port name
 ******************************************************************************************/
-int main()
+static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
+{
+    int usbdev; /* handle to FTDI device */
+    FILE *fid;
+    char response; /* receive buffer */
+    uint16_t recv_count = 0;
+    struct termios SerialPortSettings;	// Create the structure
+    usbdev = open(DEVICE_PORT, O_RDWR | O_NOCTTY);
+    cfsetispeed(&SerialPortSettings,B38400);
+    SerialPortSettings.c_cflag &= ~PARENB;   /* Disables the Parity Enable bit(PARENB),So No Parity   */
+    SerialPortSettings.c_cflag &= ~CSTOPB;   /* CSTOPB = 2 Stop bits,here it is cleared so 1 Stop bit */
+    SerialPortSettings.c_cflag &= ~CSIZE;	 /* Clears the mask for setting the data size             */
+    SerialPortSettings.c_cflag |=  CS8;      /* Set the data bits = 8   */
+    SerialPortSettings.c_cflag &= ~CRTSCTS;       /* No Hardware flow Control                         */
+    SerialPortSettings.c_cflag |= CREAD | CLOCAL; /* Enable receiver,Ignore Modem Control lines       */
+    //SerialPortSettings.c_cflag &= ~ICANON; /* Set non-canonical mode */
+    //SerialPortSettings.c_cc[VTIME] = 10; /* Wait indefinetly   */
+    if((tcsetattr(usbdev, TCSANOW, &SerialPortSettings)) != 0) /* Set the attributes to the termios structure*/
+    {
+        printf("\nERROR! in Setting attributes");
+        return -1;
+    }
+    else
+        printf("\nBaudRate = %d \nStopBits = 1 \nParity = none\n", 38400);
+        printf("Awaiting data...\n\n");
+
+    //tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer */
+    fid = fopen("cutecom.log", "w");
+    // Wait until we get data
+    //while(read(usbdev, &response, 1) == 0);
+    while(1)
+    {
+        uint8_t count = read(usbdev, &response, 1);
+        //printf("%d ", count);
+        if(count < 0 ) return -1;
+        recv_count += count;
+        if(response == 0) break; // No further data
+        if(count == 1)
+        {
+        printf("%c",response); // Debugging
+        fprintf(fid,"%c", response);
+
+        }
+    }
+    close(usbdev);
+    fclose(fid);
+    return recv_count;
+}
+
+
+/******************************************************************************************
+Args serial_port, output_name
+******************************************************************************************/
+int main(int argc, char *argv[])
 {
 
     uint8_t *data;
     uint16_t count = 0;
     char *filenm = "cutecom.log";
+    char *outfile, *portname;
     FILE *fid;
     uint32_t file_len;
+    if(argc < 3)
+    {
+        printf("Program needs arguments\t port-name outfile_name,\n");
+        exit(1);
+    }
+    portname = argv[1];
+    outfile = argv[2];
+
+
+    count = usb_receive(portname, outfile); //
+    printf("%d bytes received.\n\n", count);
+    exit(1);
 
     printf("Reading file: %s\n", filenm);
     fid = fopen(filenm, "rb");
@@ -434,8 +517,7 @@ int main()
         printf("%x", data[i]);
     }
     printf("\n");
-    eps_convert ("", 0);
-    eps_convert (data, count);
+    eps_convert (data, count, outfile);
 
     fid = NULL;
     free(data);
