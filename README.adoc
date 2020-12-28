@@ -14,22 +14,25 @@ I used perf-board and wires since the wiring is very simple.  Resistor values ar
 No resistors at all will also work but may expose your parallel port to currents it can's handle.
 There should probably be voltage spike protection too with suitable diodes.
 
+
+Compile with
+
+[source, bash]
+gcc eps_convert.c -o eps_convert
+
+
 == How to Use
 
 - Plug it in to the port you want to capture from and a USB cable.
-- Start your com software and set the baud to 38400.
-- Set it to capture to a file.
-- Print.
-- Copy the capture file to the pcsrc folder and rename it cutecom.log.  I used CuteCom for capture.
-
-Run the following command.
+- Press Print on the device.  It should wait until a printer becomess attached
+- Do
 
 [source, bash]
-gcc eps_convert.c -o eps_convert && ./eps_convert
+./eps_convert /dev/ttyUSB0 report.fodt
 
-I should write a Makefile but it's too trivial to bother.
+Command line arguments are input port and output file name.
 
-This compiles the source and runs the resultant executable. Then.
+Then.
 
 [source, bash]
 libreoffice7.0 printfile.fodt
