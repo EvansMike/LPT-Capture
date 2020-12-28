@@ -442,8 +442,8 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     SerialPortSettings.c_cflag |=  CS8;      /* Set the data bits = 8   */
     SerialPortSettings.c_cflag &= ~CRTSCTS;       /* No Hardware flow Control                         */
     SerialPortSettings.c_cflag |= CREAD | CLOCAL; /* Enable receiver,Ignore Modem Control lines       */
-    //SerialPortSettings.c_cflag &= ~ICANON; /* Set non-canonical mode */
-    //SerialPortSettings.c_cc[VTIME] = 10; /* Wait indefinetly   */
+    //SerialPortSettings.c_cflag &= ~ICANON; /* Set non-canonical mode Nooooo! */
+    SerialPortSettings.c_cc[VTIME] = 10; /* Wait deciseconds  */
     if((tcsetattr(usbdev, TCSANOW, &SerialPortSettings)) != 0) /* Set the attributes to the termios structure*/
     {
         printf("\nERROR! in Setting attributes");
@@ -456,11 +456,9 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     //tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer */
     fid = fopen("cutecom.log", "w");
     // Wait until we get data
-    //while(read(usbdev, &response, 1) == 0);
     while(1)
     {
         uint8_t count = read(usbdev, &response, 1);
-        //printf("%d ", count);
         if(count < 0 ) return -1;
         recv_count += count;
         if(response == 0) break; // No further data
@@ -468,8 +466,8 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
         {
         printf("%c",response); // Debugging
         fprintf(fid,"%c", response);
-
         }
+        if(count == 0) return recv_count;
     }
     close(usbdev);
     fclose(fid);
@@ -500,7 +498,7 @@ int main(int argc, char *argv[])
 
     count = usb_receive(portname, outfile); //
     printf("%d bytes received.\n\n", count);
-    exit(1);
+    //exit(1);
 
     printf("Reading file: %s\n", filenm);
     fid = fopen(filenm, "rb");
