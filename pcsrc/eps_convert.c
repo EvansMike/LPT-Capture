@@ -123,8 +123,8 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
                 }
                 break;
             /*case 0x0c: // Form feed
-                strcpy(&(newdata[newptr]),"<text:p  text:style-name=\"P3\">");
-                newptr=newptr+30;
+                strcpy(&(newdata[newptr]),"<text:p  text:style-name=\"P3\"/>");
+                newptr=newptr+31;
                 break;*/
             case 14:                            //Select double width for one line
                 strcpy(&(newdata[newptr]),"<text:span text:style-name=\"T1\">");
@@ -458,7 +458,7 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
         printf("Awaiting data...\n\n");
 
     //tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer */
-    fid = fopen("cutecom.log", "w");
+    fid = fopen("cutecom.log", "wb");
     // Wait until we get data
     while(1)
     {
@@ -474,7 +474,9 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
         if(count == 0) return recv_count;
     }
     close(usbdev);
+    fflush(fid);
     fclose(fid);
+    fflush(fid); // Make sure file is flushed to disk.
     return recv_count;
 }
 
@@ -500,8 +502,8 @@ int main(int argc, char *argv[])
     outfile = argv[2];
 
 
-    //count = usb_receive(portname, outfile); //
-    //printf("%d bytes received.\n\n", count);
+    count = usb_receive(portname, outfile); //
+    printf("%d bytes received.\n\n", count);
     //exit(1);
 
     printf("Reading file: %s\n", filenm);
@@ -514,11 +516,13 @@ int main(int argc, char *argv[])
     count = fread(data, sizeof(uint8_t), file_len,  fid);
     printf("Size of data read = %d bytes\n", count);
     fclose(fid);
+    /*
     for(uint16_t i = 0; i < count; i++)
     {
         printf("%x", data[i]);
     }
     printf("\n");
+    */
     eps_convert (data, count, outfile);
 
     fid = NULL;
