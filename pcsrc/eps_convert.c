@@ -41,12 +41,15 @@
 #define TABSTRSZ 132
 #define NEWFILESZ 500000
 
-
-// Simple message display.
-static void DEBUG(char * msg)
-{
-    printf("%s", msg);
-}
+// Enable (or not) debugging printouts.
+#define DEBUG
+// This just makes the easier to to differentiate DEBUG printf's from regular printf's
+#ifdef DEBUG
+#define LOGD(fmt, ...) \
+            do { fprintf(stderr, fmt, __VA_ARGS__); } while (0)
+#else
+#define LOGD(fmt, ...)
+#endif
 
 
 void eps_convert (uint8_t* Data, int dsize, char *outfile)
@@ -55,17 +58,17 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
     FILE *fid;
     char tabstr[TABSTRSZ];
     int tabstrsize;
-    char timestr[TABSTRSZ];
-    int timestrsize;
+    //char timestr[TABSTRSZ];
+    //int timestrsize;
     int fptr, j;
     char newdata[NEWFILESZ];
     int newptr;
     char newtabdata[NEWFILESZ];
     int newtabptr;
     int tabid;
-    time_t timer;
-    struct tm *timestruct;
-    int tabid_i;
+    //time_t timer;
+    //struct tm *timestruct;
+    //int tabid_i;
     int prevdatanull;
     int nullcounter;
     int onelinedoublewidth;
@@ -93,7 +96,8 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
         break;
       }
     }
-    //printf("dsize=%i\n",dsize);fflush(stdout);
+    LOGD("dsize = %i\n",dsize);fflush(stdout);
+    LOGD("Data: \n%s\n", Data);fflush(stdout);
     for (;;)
     {
         if (fptr==dsize) break;
@@ -122,9 +126,9 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
                   newptr=newptr+42;
                 }
                 break;
-            /*case 0x0c: // Form feed
-                strcpy(&(newdata[newptr]),"<text:p  text:style-name=\"P3\"/>");
-                newptr=newptr+31;
+            /*case 0x0c: // Form feed FIXME.
+                strcpy(&(newdata[newptr]),"<text:span text:style-name=\"P3\"><text:s/>");
+                newptr=newptr+41;
                 break;*/
             case 14:                            //Select double width for one line
                 strcpy(&(newdata[newptr]),"<text:span text:style-name=\"T1\">");
@@ -353,19 +357,18 @@ void eps_convert (uint8_t* Data, int dsize, char *outfile)
         fptr++;
 
     }
-    printf("\n");
-    printf("%s\n",newdata);
 
-    printf("%i,%i\n",Data[fptr-1],Data[fptr]);fflush(stdout);
+    LOGD("\n%s\n",newdata);
+    LOGD("%i,%i\n", Data[fptr-1],Data[fptr]);fflush(stdout);
 
     for (;;)
     {
         if (Data[fptr-1]==10)
         {
             fptr--;
-            //printf("%i,%i\n",Data[fptr-1],Data[fptr]);fflush(stdout);
+            LOGD("%i,%i\n",Data[fptr-1],Data[fptr]);fflush(stdout);
             newptr=newptr-42;
-            //printf("%i\n",newptr);fflush(stdout);
+            LOGD("%i\n",newptr);fflush(stdout);
         }
         else
         {
@@ -450,15 +453,17 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     SerialPortSettings.c_cc[VTIME] = 10; /* Wait deciseconds  */
     if((tcsetattr(usbdev, TCSANOW, &SerialPortSettings)) != 0) /* Set the attributes to the termios structure*/
     {
-        printf("\nERROR! in Setting attributes");
+        printf("\nERROR! in Setting attributes!\nIs port %s available?\n\n", DEVICE_PORT);
         return -1;
     }
     else
+    {
         printf("\nBaudRate = %d \nStopBits = 1 \nParity = none\n", 38400);
         printf("Awaiting data...\n\n");
+    }
 
     //tcflush(fd, TCIFLUSH);   /* Discards old data in the rx buffer */
-    fid = fopen("cutecom.log", "wb");
+    fid = fopen(outfile, "wb");
     // Wait until we get data
     while(1)
     {
@@ -488,10 +493,11 @@ int main(int argc, char *argv[])
 {
 
     uint8_t *data;
-    uint16_t count = 0;
-    char *filenm = "cutecom.log";
-    char *outfile, *portname;
-    FILE *fid;
+    int count = 0;
+    char* filenm = "LPT.log";
+    char* outfile;
+    char* portname;
+    FILE* fid;
     uint32_t file_len;
     if(argc < 3)
     {
@@ -502,10 +508,10 @@ int main(int argc, char *argv[])
     outfile = argv[2];
 
 
-    count = usb_receive(portname, outfile); //
-    printf("%d bytes received.\n\n", count);
-    //exit(1);
+    count = usb_receive(portname, filenm); // Read from the serial port.
+    if (count < 0) exit(1);
 
+    printf("%d bytes received.\n\n", count);
     printf("Reading file: %s\n", filenm);
     fid = fopen(filenm, "rb");
     fseek(fid, 0, SEEK_END);
@@ -527,5 +533,4 @@ int main(int argc, char *argv[])
 
     fid = NULL;
     free(data);
-
 }
