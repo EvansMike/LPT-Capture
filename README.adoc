@@ -27,11 +27,11 @@ make install
 == How to Use
 
 - Plug it in to the port you want to capture from and a USB cable.
-- Press Print on the device.  It should wait until a printer becomess attached
-- Do
+- Press Print on the device, a Megger AV4 in my case.  It should wait until a printer becomes attached
+- Do:
 
 [source, bash]
-./eps_convert /dev/ttyUSB0 report.fodt
+eps_convert /dev/ttyUSB0 report.fodt
 
 Command line arguments are input port and output file name.
 
