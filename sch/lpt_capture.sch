@@ -4,10 +4,10 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title ""
-Date ""
-Rev ""
-Comp ""
+Title "LPT CAPTURE  BOARD"
+Date "2022-05-24"
+Rev "1"
+Comp "MILLSTREAM COMPUTING"
 Comment1 ""
 Comment2 ""
 Comment3 ""
@@ -328,8 +328,8 @@ Wire Wire Line
 Connection ~ 5000 2100
 Wire Wire Line
 	5000 2100 5100 2100
-Text Notes 4200 3050 0    50   ~ 0
-TODO: Change the wiring here to avoid\nall the bit shifting. Neater code or neater\nschematic?
+Text Notes 5250 1150 0    50   ~ 0
+TODO: Change the wiring here to avoid\nall the bit shifting. Neater code or neater\nPCB?
 Text Label 5300 3600 0    50   ~ 0
 PD2(INT0)
 Text Label 5400 3700 0    50   ~ 0
