@@ -4,24 +4,26 @@ Capture text from a parallel port to a file, then convert that to a LibreOffice 
 
 This was written to capture the parallel print output from a Megger used for PAT.  It will likely work for other legacy devices with parallel LPT ports.
 
-This consists of hardware/firmware in src and PC, Linux, software in pcsrc.
-Micro controller code is C AVR not Arduino.  Do:
+This consists of hardware/firmware in /firmware and PC, Linux, software in /userware.
+
+Micro controller code is C AVR not Arduino.  To make the firmware:
 
 [source, bash]
-cd src
+cd firmware
 make install
 
 To build and install.  Edit the Makefile for your favourite installer tool.
 
 First build your device using the schematic.
+
 I used perf-board and wires since the wiring is very simple.  Resistor values are 1K but other values around this may work too.
 No resistors at all will also work but may expose your parallel port to currents it can's handle.
-There should probably be voltage spike protection too with suitable diodes.
+There should probably be voltage spike protection too with suitable diodes and/or a buffer chip. 
 
-Compile the pc site utility with:
+Compile the pc side utility with:
 
 [source, bash]
-cd pcsrc
+cd userware
 make install
 
 == How to Use
@@ -38,15 +40,16 @@ Command line arguments are input port and output file name.
 Then open the output file.
 
 [source, bash]
-libreoffice7.0 printfile.fodt
+libreoffice printfile.fodt
 
-To open the file in LibreOffice Writer.  Obviously use the version you have installed.
+To open the file in LibreOffice Writer.
 Or you can do all that mouse clicky malarky in your GUI.
 
 Enjoy.  Also post bugs and improvements.
 
 This was really a one off for some specific data I need to liberate.
 I need to make it more generic.
+
 Maybe.
 
 I guess this could realistically convert direct to PDF but using LibreOffice to check and edit the output
