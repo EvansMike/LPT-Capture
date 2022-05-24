@@ -198,23 +198,23 @@ $EndComp
 Wire Wire Line
 	7400 1650 7400 1750
 $Comp
-L 74xx:74LS541 U?
+L 74xx:74LS541 U2
 U 1 1 5FE5F600
 P 2550 4450
-F 0 "U?" H 2550 5431 50  0000 C CNN
+F 0 "U2" H 2550 5431 50  0000 C CNN
 F 1 "74LS541" H 2550 5340 50  0000 C CNN
-F 2 "" H 2550 4450 50  0001 C CNN
+F 2 "Package_DIP:DIP-20_W7.62mm_LongPads" H 2550 4450 50  0001 C CNN
 F 3 "http://www.ti.com/lit/gpn/sn74LS541" H 2550 4450 50  0001 C CNN
 	1    2550 4450
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R?
+L Device:R R9
 U 1 1 5FE5FFF9
 P 7200 2150
-F 0 "R?" H 7322 2196 50  0000 C CNN
+F 0 "R9" H 7322 2196 50  0000 C CNN
 F 1 "1K" H 7322 2105 50  0000 C CNN
-F 2 "" V 7130 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 7130 2150 50  0001 C CNN
 F 3 "~" H 7200 2150 50  0001 C CNN
 	1    7200 2150
 	1    0    0    -1  
@@ -222,12 +222,12 @@ $EndComp
 Wire Wire Line
 	7200 2300 7200 2700
 $Comp
-L Device:R R?
+L Device:R R8
 U 1 1 5FE608AE
 P 7000 2150
-F 0 "R?" H 7122 2196 50  0000 C CNN
+F 0 "R8" H 7122 2196 50  0000 C CNN
 F 1 "1K" H 7122 2105 50  0000 C CNN
-F 2 "" V 6930 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 6930 2150 50  0001 C CNN
 F 3 "~" H 7000 2150 50  0001 C CNN
 	1    7000 2150
 	1    0    0    -1  
@@ -235,12 +235,12 @@ $EndComp
 Wire Wire Line
 	7000 2300 7000 2650
 $Comp
-L Device:R R?
+L Device:R R7
 U 1 1 5FE60B0A
 P 6800 2150
-F 0 "R?" H 6922 2196 50  0000 C CNN
+F 0 "R7" H 6922 2196 50  0000 C CNN
 F 1 "1K" H 6922 2105 50  0000 C CNN
-F 2 "" V 6730 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 6730 2150 50  0001 C CNN
 F 3 "~" H 6800 2150 50  0001 C CNN
 	1    6800 2150
 	1    0    0    -1  
@@ -248,12 +248,12 @@ $EndComp
 Wire Wire Line
 	6800 2300 6800 2600
 $Comp
-L Device:R R?
+L Device:R R6
 U 1 1 5FE60E1D
 P 6600 2150
-F 0 "R?" H 6722 2196 50  0000 C CNN
+F 0 "R6" H 6722 2196 50  0000 C CNN
 F 1 "1K" H 6722 2105 50  0000 C CNN
-F 2 "" V 6530 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 6530 2150 50  0001 C CNN
 F 3 "~" H 6600 2150 50  0001 C CNN
 	1    6600 2150
 	1    0    0    -1  
@@ -261,12 +261,12 @@ $EndComp
 Wire Wire Line
 	6600 2300 6600 2550
 $Comp
-L Device:R R?
+L Device:R R5
 U 1 1 5FE60FC6
 P 6400 2150
-F 0 "R?" H 6522 2196 50  0000 C CNN
+F 0 "R5" H 6522 2196 50  0000 C CNN
 F 1 "1K" H 6522 2105 50  0000 C CNN
-F 2 "" V 6330 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 6330 2150 50  0001 C CNN
 F 3 "~" H 6400 2150 50  0001 C CNN
 	1    6400 2150
 	1    0    0    -1  
@@ -274,12 +274,12 @@ $EndComp
 Wire Wire Line
 	6400 2300 6400 2500
 $Comp
-L Device:R R?
+L Device:R R4
 U 1 1 5FE61261
 P 6200 2150
-F 0 "R?" H 6322 2196 50  0000 C CNN
+F 0 "R4" H 6322 2196 50  0000 C CNN
 F 1 "1K" H 6322 2105 50  0000 C CNN
-F 2 "" V 6130 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 6130 2150 50  0001 C CNN
 F 3 "~" H 6200 2150 50  0001 C CNN
 	1    6200 2150
 	1    0    0    -1  
@@ -287,12 +287,12 @@ $EndComp
 Wire Wire Line
 	6200 2300 6200 2450
 $Comp
-L Device:R R?
+L Device:R R3
 U 1 1 5FE61584
 P 6000 2150
-F 0 "R?" H 6122 2196 50  0000 C CNN
+F 0 "R3" H 6122 2196 50  0000 C CNN
 F 1 "1K" H 6122 2105 50  0000 C CNN
-F 2 "" V 5930 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5930 2150 50  0001 C CNN
 F 3 "~" H 6000 2150 50  0001 C CNN
 	1    6000 2150
 	1    0    0    -1  
@@ -300,12 +300,12 @@ $EndComp
 Wire Wire Line
 	6000 2300 6000 2400
 $Comp
-L Device:R R?
+L Device:R R2
 U 1 1 5FE617EF
 P 5800 2150
-F 0 "R?" H 5922 2196 50  0000 C CNN
+F 0 "R2" H 5922 2196 50  0000 C CNN
 F 1 "1K" H 5922 2105 50  0000 C CNN
-F 2 "" V 5730 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5730 2150 50  0001 C CNN
 F 3 "~" H 5800 2150 50  0001 C CNN
 	1    5800 2150
 	1    0    0    -1  
@@ -313,31 +313,16 @@ $EndComp
 Wire Wire Line
 	5800 2300 5800 2350
 $Comp
-L Device:R R?
+L Device:R R1
 U 1 1 5FE61A16
 P 5600 2150
-F 0 "R?" H 5722 2196 50  0000 C CNN
+F 0 "R1" H 5722 2196 50  0000 C CNN
 F 1 "1K" H 5722 2105 50  0000 C CNN
-F 2 "" V 5530 2150 50  0001 C CNN
+F 2 "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" V 5530 2150 50  0001 C CNN
 F 3 "~" H 5600 2150 50  0001 C CNN
 	1    5600 2150
 	1    0    0    -1  
 $EndComp
-$Comp
-L MCU_Microchip_ATmega:ATmega168P-20A U?
-U 1 1 5FE65C78
-P -1400 3650
-F 0 "U?" H -1740 2061 50  0000 L BNN
-F 1 "ATmega168P-20A" H -1740 1970 50  0000 L TNN
-F 2 "Package_QFP:TQFP-32_7x7mm_P0.8mm" H -1400 3650 50  0001 C CIN
-F 3 "http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-8025-8-bit-AVR-Microcontroller-ATmega48P-88P-168P_Datasheet.pdf" H -1400 3650 50  0001 C CNN
-	1    -1400 3650
-	1    0    0    -1  
-$EndComp
-Text Label -800 4150 0    50   ~ 0
-D0_RX
-Text Label -800 4250 0    50   ~ 0
-D1
 Wire Wire Line
 	5000 1950 5000 2100
 Connection ~ 5000 2100
@@ -393,4 +378,12 @@ Wire Wire Line
 	5450 4800 5650 4800
 Text Notes 1050 4450 0    50   ~ 0
 TODO: Maybe add buffers \nto prevent PC damage
+NoConn ~ 7100 1950
+NoConn ~ 6900 1950
+NoConn ~ 6700 1950
+NoConn ~ 6500 1950
+NoConn ~ 4800 1950
+NoConn ~ 6650 3500
+NoConn ~ 6650 3600
+NoConn ~ 6650 3900
 $EndSCHEMATC
