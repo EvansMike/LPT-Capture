@@ -481,7 +481,7 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     close(usbdev);
     fflush(fid);
     fclose(fid);
-    fflush(fid); // Make sure file is flushed to disk.
+    //fflush(fid); // Make sure file is flushed to disk.
     return recv_count;
 }
 
