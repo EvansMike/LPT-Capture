@@ -164,7 +164,7 @@ int main()
           timeout_count = 1;
           //digitalWrite(nAck,LOW);
           PORTC &= ~_BV(nAck);
-          _delay_us(15); //milliseconds. Specification minimum = 5 us
+          _delay_us(5); //milliseconds. Specification minimum = 5 us
           state = READY;
 
           break;
