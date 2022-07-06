@@ -447,10 +447,10 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     SerialPortSettings.c_cflag &= ~CSTOPB;   /* CSTOPB = 2 Stop bits,here it is cleared so 1 Stop bit */
     SerialPortSettings.c_cflag &= ~CSIZE;	 /* Clears the mask for setting the data size             */
     SerialPortSettings.c_cflag |=  CS8;      /* Set the data bits = 8   */
-    SerialPortSettings.c_cflag &= ~CRTSCTS;       /* No Hardware flow Control                         */
-    SerialPortSettings.c_cflag |= CREAD | CLOCAL; /* Enable receiver,Ignore Modem Control lines       */
-    //SerialPortSettings.c_cflag &= ~ICANON; /* Set non-canonical mode Nooooo! */
-    SerialPortSettings.c_cc[VTIME] = 10; /* Wait deciseconds  */
+    SerialPortSettings.c_cflag &= ~CRTSCTS;         /* No Hardware flow Control                      */
+    SerialPortSettings.c_cflag |= CREAD | CLOCAL;   /* Enable receiver,Ignore Modem Control lines  */
+    //SerialPortSettings.c_cflag &= ~ICANON;        /* Set non-canonical mode Nooooo! */
+    SerialPortSettings.c_cc[VTIME] = 100;           /* Wait timeout deciseconds  */
     if((tcsetattr(usbdev, TCSANOW, &SerialPortSettings)) != 0) /* Set the attributes to the termios structure*/
     {
         printf("\nERROR! in Setting attributes!\nIs port %s available?\n\n", DEVICE_PORT);
@@ -481,7 +481,6 @@ static int16_t usb_receive(const char* DEVICE_PORT, char * outfile)
     close(usbdev);
     fflush(fid);
     fclose(fid);
-    //fflush(fid); // Make sure file is flushed to disk.
     return recv_count;
 }
 
