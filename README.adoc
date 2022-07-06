@@ -33,14 +33,18 @@ make install
 - Do:
 
 [source, bash]
-eps_convert /dev/ttyUSB0 report.fodt
+lpt_capture /dev/ttyUSB0 report.fodt
 
 Command line arguments are input port and output file name.
 
-Then open the output file.
+Then don't open the output file.
 
-[source, bash]
-libreoffice printfile.fodt
+Or rather use the LPT.log file as the  printfile.fodt wil be empty because this doesn't work
+and I can't remember why anymore.
+
+
+////[source, bash]
+////libreoffice printfile.fodt
 
 To open the file in LibreOffice Writer.
 Or you can do all that mouse clicky malarky in your GUI.
